@@ -1,0 +1,39 @@
+1.- install package swagger Swashbuckle.AspNetCore
+2.- add swagger integration bellow the builder.
+3.- enable Swagger middleware
+4.- intall - api
+    dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+    dotnet add package Microsoft.EntityFrameworkCore
+    dotnet add package Microsoft.EntityFrameworkCore.Design
+    dotnet add DeviceConfigApi package Microsoft.AspNetCore.Authentication.JwtBearer
+    dotnet add DeviceConfigApi package System.IdentityModel.Tokens.Jwt
+5.- dotnet tool install --global dotnet-ef
+6.- builder.Services.AddControllers();
+7.- app.MapControllers();
+8.- install - dataContext
+    dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+    dotnet add package Microsoft.EntityFrameworkCore.Design
+9.- Migrate device database - 
+    dotnet ef migrations add InitialMigration --project .\DeviceConfigDeviceData\ --startup-project .\DeviceConfigApi\ --context DeviceDataContext
+10.- dotnet ef database update --startup-project DeviceConfigApi --context DeviceDataContext
+11.- install - userData
+    dotnet add DeviceConfigUserData package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+    dotnet add DeviceConfigUserData package Microsoft.EntityFrameworkCore
+    dotnet add DeviceConfigUserData package Microsoft.EntityFrameworkCore.Relational
+    dotnet add DeviceConfigUserData package Microsoft.EntityFrameworkCore.Design
+    dotnet add DeviceConfigUserData package Npgsql.EntityFrameworkCore.PostgreSQL
+    dotnet add DeviceConfigUserData package Microsoft.Extensions.Configuration
+    dotnet add DeviceConfigUserData package Microsoft.Extensions.Configuration.FileExtensions
+    dotnet add DeviceConfigUserData package Microsoft.Extensions.Configuration.Json
+12.- migrate userDatabase -
+    dotnet ef migrations add IdentityInit --project DeviceConfigUserData --startup-project DeviceConfigApi --context IdentityDb
+13.- update database 
+    dotnet ef database update --startup-project DeviceConfigApi --context IdentityDb 
+
+
+
+    test
+{
+  "email": "jcastorena.admin@aolmfg.com",
+  "password": "Abc123!@#"
+}

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="DeviceConfigApi/DeviceConfigApi.csproj" />
+  <Project Path="DeviceConfigDeviceData/DeviceConfigDeviceData.csproj" />
+  <Project Path="DeviceConfigUserData/DeviceConfigUserData.csproj" />
+</Solution>
