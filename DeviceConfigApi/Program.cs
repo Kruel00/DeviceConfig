@@ -14,14 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 //Swagger Integration
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddControllers();
+
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-        
 
-        // Add Swagger
+
+// Add Swagger
 builder.Services.AddSwaggerGen();
 
 var DeviceDataConnection = builder.Configuration.GetConnectionString("DeviceDataConnection");
@@ -30,43 +30,45 @@ var UserDataConnection = builder.Configuration.GetConnectionString("IdentityDb")
 builder.Services.AddDbContext<DeviceDataContext>(options => options.UseNpgsql(DeviceDataConnection));
 builder.Services.AddDbContext<IdentityDb>(options => options.UseNpgsql(UserDataConnection));
 
+
+
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+})
+.AddEntityFrameworkStores<IdentityDb>()
+.AddDefaultTokenProviders();
+
+var jwt = builder.Configuration.GetSection("Jwt");
+
 builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(options =>
     {
-        var jwt = builder.Configuration.GetSection("jwt");
-
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-
             ValidIssuer = jwt["Issuer"],
-            ValidAudience  = jwt["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwt["Key"]!))
-        };
+            ValidAudience = jwt["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!)),
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-          RoleClaimType = ClaimTypes.Role,
-          NameClaimType = ClaimTypes.Name  
+            RoleClaimType = ClaimTypes.Role,
+            NameClaimType = ClaimTypes.Name
         };
     });
 
-
 builder.Services.AddAuthorization();
-
-builder.Services.AddIdentity<User, IdentityRole>(options =>
-{
-    options.User.RequireUniqueEmail = true;
-    options.Password.RequiredLength = 8;
-})
-.AddEntityFrameworkStores<IdentityDb>()
-.AddDefaultTokenProviders();
-
+builder.Services.AddControllers();
 builder.Services.AddScoped<JwtTokenService>();
 
 
@@ -79,15 +81,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-using(var scope = app.Services.CreateScope()){
-    await RoleSeeder.SeedAsync(scope.ServiceProvider);
+// ===== Seed Roles =====
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roles = { "Admin", "User" };
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
 }
-
-app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseHttpsRedirection();
-
+app.MapControllers();
 app.Run();
+
+//app.UseHttpsRedirection();
+

@@ -1,31 +1,31 @@
 services:
   postgres:
+    networks:
+      - backend
     image: postgres:16
     container_name: postgres-db
-    environment:
-      POSTGRES_USER: configApp
-      POSTGRES_PASSWORD: Config@123
-      POSTGRES_DB: mydb
+    env_file: .env
     ports:
-      - "5432:5432"
+      - "5432:5432" 
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   pgadmin:
+    networks:
+      - backend
     image: dpage/pgadmin4
+    env_file: .env
     ports:
       - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: jcastorena@aolmfg.com
-      PGADMIN_DEFAULT_PASSWORD: Abc123!@#
     depends_on:
       - postgres
+    volumes: 
+      - ./servers.json:/pgadmin4/servers.json
+      - ./pgpass:/pgpass/.pgpass:ro
+
 
 volumes:
-  postgres_data:
+  postgres_data:  
 
-environment:
-  Jwt__Key: aolmfg2026
-  Jwt__Issuer: DeviceConfigApi
-  Jwt__Audience: DeviceConfigClients
-  Jwt__ExpiresMinutes: 60
+networks:
+  backend:

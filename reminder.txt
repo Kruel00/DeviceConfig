@@ -32,8 +32,3 @@
 
 
 
-    test
-{
-  "email": "jcastorena.admin@aolmfg.com",
-  "password": "Abc123!@#"
-}

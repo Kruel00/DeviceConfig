@@ -28,16 +28,12 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
-        if(user == null)
-            return Unauthorized();
+        if(user == null) return Unauthorized();
 
-        var result = await _signInManager
-            .CheckPasswordSignInAsync(user, request.Password, false);
-        
-        if(!result.Succeeded)
-            return Unauthorized();
+        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+        if(!result.Succeeded) return Unauthorized();
 
-        var token = _jwt.GetToke(user, _userManager);
+        var token = await _jwt.GetToken(user, _userManager);
         return Ok(new { token });
     }
 
@@ -91,21 +87,6 @@ public class AuthController : ControllerBase
         return Ok();
     }
     
-
-    [Authorize(Roles = "Admin")]
-    [HttpGet("SetUserRole/{userId}")]
-    public async Task<IActionResult> SetUserRole(string userId)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-        if(user == null)
-            return NotFound();
-
-        var result = await _userManager.RemoveFromRoleAsync(user, "user");
-        if(!result.Succeeded)
-            return BadRequest(result.Errors);
-
-        return Ok();
-    }
 
 }
 

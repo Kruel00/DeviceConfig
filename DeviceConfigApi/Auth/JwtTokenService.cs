@@ -16,7 +16,7 @@ public class JwtTokenService
         _config = config;
     }
 
-    public async Task<string> GetToke(User user, UserManager<User> userManager)
+    public async Task<string> GetToken(User user, UserManager<User> userManager)
     {
         var jwt = _config.GetSection("jwt");
 
@@ -40,8 +40,7 @@ public class JwtTokenService
             issuer: jwt["Issuer"],
             audience: jwt["Audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(
-                int.Parse(jwt["ExpiresMinutes"]!)),
+            expires: DateTime.UtcNow.AddMinutes(int.Parse(jwt["ExpiresMinutes"]!)),
             signingCredentials: creds
         );
 
