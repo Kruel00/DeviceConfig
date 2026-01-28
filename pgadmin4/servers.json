@@ -1,11 +1,31 @@
 {
   "Servers": {
+     "0": {
+      "Name": "Local Postgres",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "configApp",
+      "Password": "Config@123",
+      "SSLMode": "prefer"
+    },
     "1": {
       "Name": "Local Postgres",
       "Group": "Servers",
       "Host": "postgres",
       "Port": 5432,
-      "MaintenanceDB": "myDb",
+      "MaintenanceDB": "DeviceConfig",
+      "Username": "configApp",
+      "Password": "Config@123",
+      "SSLMode": "prefer"
+    },
+     "2": {
+      "Name": "Local Postgres",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "UserData",
       "Username": "configApp",
       "Password": "Config@123",
       "SSLMode": "prefer"

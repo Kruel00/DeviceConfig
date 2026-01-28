@@ -56,7 +56,17 @@ var UserDataConnection = builder.Configuration.GetConnectionString("IdentityDb")
 builder.Services.AddDbContext<DeviceDataContext>(options => options.UseNpgsql(DeviceDataConnection));
 builder.Services.AddDbContext<IdentityDb>(options => options.UseNpgsql(UserDataConnection));
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSwagger",
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -114,10 +124,21 @@ using (var scope = app.Services.CreateScope())
     string[] roles = { "Admin", "User" };
     foreach (var role in roles)
     {
-        if (!await roleManager.RoleExistsAsync(role))
-            await roleManager.CreateAsync(new IdentityRole(role));
+        try
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+                await roleManager.CreateAsync(new IdentityRole(role));
+        }
+        catch(Exception ex)
+        {
+            
+            Console.WriteLine(ex);
+        }
+        
     }
 }
+
+app.UseCors("AllowSwagger");
 
 app.UseAuthentication();
 app.UseAuthorization();

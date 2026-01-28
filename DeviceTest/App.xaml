@@ -2,8 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DeviceTest"
+             xmlns:vm="clr-namespace:DeviceTest.ViewModels"
+             xmlns:views="clr-namespace:DeviceTest.Views"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomeView/>
+        </DataTemplate>
+        
     </Application.Resources>
 </Application>
