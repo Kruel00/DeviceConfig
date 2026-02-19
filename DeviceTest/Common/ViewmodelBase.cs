@@ -9,20 +9,20 @@ public class ViewmodelBase : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    protected void OnPropertyChanged(string? PropertyName)
     {
-        if( EqualityComparer<T>.Default.Equals(field, value))
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+    }
+
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value))
             return false;
 
         field = value;
         OnPropertyChanged(propertyName);
         return true;
     }
-    
 
-    protected void OnPropertyChanged(string? PropertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-    }
 
 }

@@ -85,7 +85,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Button 
-                Command="{Binding RunTest1Command}" 
+                Command="{Binding NavigateToViewCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Name}"
+                Name="settings"
                 Style="{StaticResource TestButtonStyle}"
                 Grid.Row="0" Grid.Column="0">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">

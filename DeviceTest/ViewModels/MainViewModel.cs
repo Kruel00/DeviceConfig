@@ -18,7 +18,7 @@ namespace DeviceTest.ViewModels
 
         public void ShowLogin()
         {
-            CurrentView = new LoginViewModel(this);
+            CurrentView = new HomeViewModel(this);
             OnPropertyChanged(nameof(CurrentView));
         }
 
@@ -26,6 +26,11 @@ namespace DeviceTest.ViewModels
         {
             CurrentView = new HomeViewModel(this);
         }
+        //public void ShowSettings()
+        //{
+        //    CurrentView = new SettingsViewModel(this);
+        //    OnPropertyChanged(nameof(CurrentView));
+        //}
 
         public void ShowItems()
         {
@@ -39,5 +44,23 @@ namespace DeviceTest.ViewModels
             CurrentView = new LoginViewModel(this);
         }
 
+
+        public void NavigateToView(string viewName)
+        {
+            switch (viewName)
+            {
+                case "Home":
+                    NavigateToHome();
+                    break;
+                case "Settings":
+                    //ShowSettings();
+                    break;
+                case "Items":
+                    ShowItems();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

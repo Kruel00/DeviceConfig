@@ -14,6 +14,22 @@
         <DataTemplate DataType="{x:Type vm:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
-        
+
+        <DataTemplate DataType="{x:Type vm:DevicesViewModel}">
+            <views:DevicesView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:UsersViewModel}">
+            <views:UsersView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:HidViewModel}">
+            <views:HIDView/>   
+        </DataTemplate>
+
     </Application.Resources>
 </Application>
