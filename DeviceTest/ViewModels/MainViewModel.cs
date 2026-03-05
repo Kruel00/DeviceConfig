@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 namespace DeviceTest.ViewModels
 {
     public class MainViewModel: ViewmodelBase
@@ -38,6 +38,12 @@ namespace DeviceTest.ViewModels
             OnPropertyChanged(nameof(CurrentView));
         }
 
+        public void ShowImages()
+        {
+            CurrentView = new ImageViewModel(this);
+            OnPropertyChanged(nameof(CurrentView));
+        }
+
         public void Logout()
         {
             AuthService.Logout();
@@ -57,6 +63,9 @@ namespace DeviceTest.ViewModels
                     break;
                 case "Items":
                     ShowItems();
+                    break;
+                case "Images":
+                    ShowImages();
                     break;
                 default:
                     break;

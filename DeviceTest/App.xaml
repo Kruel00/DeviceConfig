@@ -31,5 +31,9 @@
             <views:HIDView/>   
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:ImageViewModel}">
+            <views:ImageView/>
+        </DataTemplate>
+        
     </Application.Resources>
 </Application>

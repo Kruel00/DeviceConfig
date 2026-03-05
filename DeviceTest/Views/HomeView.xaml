@@ -133,6 +133,17 @@
                     <TextBlock Text="User" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
+            <Button 
+                Command="{Binding NavigateToViewCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Name}"
+                Name="Images"
+                Style="{StaticResource TestButtonStyle}"
+                Grid.Row="0" Grid.Column="4">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="/Assets/Images/folder.png" Width="48" Height="32" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Images" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

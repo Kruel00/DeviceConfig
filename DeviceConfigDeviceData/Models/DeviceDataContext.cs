@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DeviceConfigDeviceData.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeviceConfigDeviceData;
 
@@ -12,4 +13,5 @@ public class DeviceDataContext : DbContext
     
     public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<Device> Devices => Set<Device>();
+    public DbSet<DeviceConfig> DeviceConfigs => Set<DeviceConfig>();
 }

@@ -32,4 +32,11 @@ public class BrandController: Controller
         await _context.SaveChangesAsync();
         return Ok(brand);
     }
+
+    [HttpGet("GetAllBrands")]
+    public async Task<IActionResult> GetAllBrands() {
+
+
+        return Ok(_context.Brands.ToList());
+    }
 }
